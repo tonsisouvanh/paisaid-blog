@@ -3,13 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev-mobile": "dotenv -e .env.local next dev -H 0.0.0.0",
+    "dev-mobile": "dotenv -e .env.development.local next dev -H 0.0.0.0",
     "dev": "next dev -p 3002",
     "build": "next build",
     "start": "next start",
     "start-mobile": "next start -H 0.0.0.0",
     "lint": "next lint",
-    "build:dev": "dotenv -e .env.local next build"
+    "build:dev": "dotenv -e .env.development.local next build"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
