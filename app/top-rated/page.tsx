@@ -15,22 +15,7 @@ import { Slider } from '@/components/ui/slider';
 import PlaceCard from '@/components/place-card';
 import PlaceCardHorizontal from '../explore/components/place-card-horizal';
 import { categories, cities, topRatedPlaces } from './data';
-
-// Helper function to get price symbol
-const getPriceSymbol = (range: string) => {
-  switch (range) {
-    case 'LOW':
-      return '$';
-    case 'MEDIUM':
-      return '$$';
-    case 'HIGH':
-      return '$$$';
-    case 'LUXURY':
-      return '$$$$';
-    default:
-      return '$$';
-  }
-};
+import { getPriceSymbol } from '@/lib/utils';
 
 export default function TopRatedPage() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
@@ -395,7 +380,7 @@ export default function TopRatedPage() {
                 priceRange={place.priceRange}
                 imageUrl={place.imageUrl}
                 city={place.city}
-                tags={place.tags}
+                tags={[]}
                 href={`/place/${place.slug}`}
               />
             ))}

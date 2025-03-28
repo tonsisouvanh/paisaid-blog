@@ -1,12 +1,17 @@
+import { cn } from '@/lib/utils';
 import { MapPin } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 
-const Footer = () => {
+type Props = {
+  className?: string;
+};
+
+const Footer = ({ className }: Props) => {
   return (
-    <footer className="border-t py-6 md:py-8">
+    <footer className={cn('border-t py-6 md:py-8', className)}>
       <div className="container px-4">
-        <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
+        <div className="hidden grid-cols-2 gap-6 md:grid-cols-4">
           <div>
             <h3 className="mb-3 text-sm font-medium">Company</h3>
             <ul className="space-y-2">

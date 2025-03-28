@@ -3,6 +3,8 @@ import Image from 'next/image';
 import { Star, MapPin } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
+import { TagType } from '@/hooks/use-post';
+import { getPriceSymbol } from '@/lib/utils';
 
 interface PlaceCardProps {
   title: string;
@@ -12,7 +14,7 @@ interface PlaceCardProps {
   priceRange: string;
   imageUrl: string;
   city: string;
-  tags: string[];
+  tags: TagType[];
   href: string;
 }
 
@@ -27,21 +29,6 @@ export default function PlaceCard({
   tags,
   href,
 }: PlaceCardProps) {
-  const getPriceSymbol = (range: string) => {
-    switch (range) {
-      case 'LOW':
-        return '$';
-      case 'MEDIUM':
-        return '$$';
-      case 'HIGH':
-        return '$$$';
-      case 'LUXURY':
-        return '$$$$';
-      default:
-        return '$$';
-    }
-  };
-
   return (
     <Card className="h-full overflow-hidden transition-shadow hover:shadow-md">
       <Link href={href} className="block h-full">
@@ -72,7 +59,7 @@ export default function PlaceCard({
           <div className="mt-2 flex flex-wrap gap-1">
             {tags.slice(0, 2).map((tag, index) => (
               <Badge key={index} variant="outline" className="h-4 py-0 text-[10px]">
-                {tag}
+                {tag.name}
               </Badge>
             ))}
           </div>

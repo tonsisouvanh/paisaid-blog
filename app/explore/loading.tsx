@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Grid, List, Star } from 'lucide-react';
 
-export default function TopRatedLoading() {
+export default function ExplorePostLoading() {
   return (
     <div className="min-h-screen bg-background">
       <main className="container px-4 py-6 md:py-10">

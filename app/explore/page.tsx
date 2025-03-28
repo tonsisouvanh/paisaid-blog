@@ -1,28 +1,32 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
-import { Search, Filter, Grid, List, Map, X, ArrowLeft } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import PlaceCard from '@/components/place-card';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import { EmptyState } from '@/components/ui/empty';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import {
   Sheet,
+  SheetClose,
   SheetContent,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-  SheetFooter,
-  SheetClose,
 } from '@/components/ui/sheet';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Slider } from '@/components/ui/slider';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import PlaceCard from '@/components/place-card';
-import PlaceCardHorizontal from './components/place-card-horizal';
+import { useGetPosts } from '@/hooks/use-post';
+import { ArrowLeft, Filter, Grid, List, Map, Search, X } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import MapView from './components/map-view';
+import { getPriceSymbol } from '@/lib/utils';
+import ExplorePostLoading from './loading';
+import PlaceCardHorizontal from './components/place-card-horizal';
 
 // Mock data based on the schema
 const categories = [
@@ -188,8 +192,8 @@ const places = [
 ];
 
 export default function ExplorePage() {
+  const { data: postsData, isLoading: isPostsLoading } = useGetPosts();
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   // View state (grid, list, map)
   const [viewMode, setViewMode] = useState<'grid' | 'list' | 'map'>('grid');
@@ -316,22 +320,6 @@ export default function ExplorePage() {
     setSortOption('rating-desc');
   };
 
-  // Get price symbol
-  const getPriceSymbol = (range: string) => {
-    switch (range) {
-      case 'LOW':
-        return '$';
-      case 'MEDIUM':
-        return '$$';
-      case 'HIGH':
-        return '$$$';
-      case 'LUXURY':
-        return '$$$$';
-      default:
-        return '';
-    }
-  };
-
   // Count active filters
   const activeFilterCount =
     selectedCategories.length +
@@ -339,6 +327,11 @@ export default function ExplorePage() {
     selectedCities.length +
     priceRange.length +
     (ratingFilter > 0 ? 1 : 0);
+
+  if (isPostsLoading) return <ExplorePostLoading />;
+
+  if (!postsData || postsData.length === 0)
+    return <EmptyState title="Data not found" description="Please come back next time" />;
 
   return (
     <div className="min-h-screen bg-background">
@@ -354,7 +347,7 @@ export default function ExplorePage() {
         </div>
       </header>
 
-      <div className="container px-4 py-4 md:py-8">
+      <div className="container mx-auto px-4 py-4 md:py-8">
         {/* Desktop Header */}
         <div className="mb-8 hidden md:block">
           <h1 className="mb-2 text-3xl font-bold tracking-tight">Explore Places</h1>
@@ -659,34 +652,34 @@ export default function ExplorePage() {
 
         {/* Results Count */}
         <div className="mb-4 text-sm text-muted-foreground">
-          {filteredPlaces.length} {filteredPlaces.length === 1 ? 'place' : 'places'} found
+          {postsData.length} {postsData.length === 1 ? 'place' : 'places'} found
         </div>
 
         {/* Results */}
         {viewMode === 'map' ? (
           <div className="h-[calc(100vh-220px)] min-h-[400px] overflow-hidden rounded-lg">
-            <MapView places={filteredPlaces} />
+            <MapView places={postsData} />
           </div>
         ) : viewMode === 'grid' ? (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {filteredPlaces.map(place => (
+            {postsData.map(post => (
               <PlaceCard
-                key={place.id}
-                title={place.title}
-                category={place.category}
-                rating={place.rating}
-                reviewCount={place.reviewCount}
-                priceRange={place.priceRange}
-                imageUrl={place.imageUrl}
-                city={place.city}
-                tags={place.tags}
-                href={`/place/${place.slug}`}
+                key={post.id}
+                title={post.title}
+                category={post.category?.name || 'N/A'}
+                rating={post.avgRating || 0}
+                reviewCount={post.reviewCount || 0}
+                priceRange={post.priceRange || 'N/A'}
+                imageUrl={post?.photos && post.photos?.length > 0 ? post.photos[0].url : ''}
+                city={post.city || ''}
+                tags={post.tags || []}
+                href={`/place/${post.id}`}
               />
             ))}
           </div>
         ) : (
           <div className="space-y-4">
-            {filteredPlaces.map(place => (
+            {/* {places.map(place => (
               <PlaceCardHorizontal
                 key={place.id}
                 title={place.title}
@@ -700,12 +693,13 @@ export default function ExplorePage() {
                 tags={place.tags}
                 href={`/place/${place.slug}`}
               />
-            ))}
+            ))} */}
+            <EmptyState title="Empty" />
           </div>
         )}
 
         {/* No Results */}
-        {filteredPlaces.length === 0 && (
+        {postsData.length === 0 && (
           <div className="py-12 text-center">
             <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full bg-muted">
               <Search className="h-6 w-6 text-muted-foreground" />
@@ -722,7 +716,7 @@ export default function ExplorePage() {
         )}
 
         {/* Load More Button */}
-        {filteredPlaces.length > 0 && filteredPlaces.length % 6 === 0 && (
+        {postsData.length > 0 && postsData.length % 6 === 0 && (
           <div className="mt-8 text-center">
             <Button variant="outline">Load More</Button>
           </div>

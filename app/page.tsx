@@ -81,7 +81,7 @@ export default function Home() {
                 priceRange="MEDIUM"
                 imageUrl="https://images.unsplash.com/photo-1739609579483-00b49437cc45?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 city="San Francisco"
-                tags={['Outdoor Seating', 'Vegan Options']}
+                tags={[]}
                 href="/place/coastal-breeze-cafe"
               />
               <PlaceCard
@@ -92,7 +92,7 @@ export default function Home() {
                 priceRange="LUXURY"
                 imageUrl="https://images.unsplash.com/photo-1739609579483-00b49437cc45?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 city="Aspen"
-                tags={['Spa', 'Mountain View']}
+                tags={[]}
                 href="/place/mountain-view-resort"
               />
               <PlaceCard
@@ -103,7 +103,7 @@ export default function Home() {
                 priceRange="HIGH"
                 imageUrl="https://images.unsplash.com/photo-1739609579483-00b49437cc45?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 city="New York"
-                tags={['Fine Dining', 'Cocktails']}
+                tags={[]}
                 href="/place/urban-spice-restaurant"
               />
             </div>
@@ -131,7 +131,7 @@ export default function Home() {
                 priceRange="HIGH"
                 imageUrl="https://plus.unsplash.com/premium_photo-1663932464937-e677ddfc1d55?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 city="Chicago"
-                tags={['Rooftop', 'Cocktails']}
+                tags={[]}
                 href="/place/skyline-lounge"
               />
               <PlaceCard
@@ -142,7 +142,7 @@ export default function Home() {
                 priceRange="MEDIUM"
                 imageUrl="https://plus.unsplash.com/premium_photo-1663932464937-e677ddfc1d55?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 city="Portland"
-                tags={['Organic', 'Vegetarian']}
+                tags={[]}
                 href="/place/green-garden-bistro"
               />
               <PlaceCard
@@ -153,7 +153,7 @@ export default function Home() {
                 priceRange="LUXURY"
                 imageUrl="https://plus.unsplash.com/premium_photo-1663932464937-e677ddfc1d55?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 city="Boston"
-                tags={['Historic', 'Luxury']}
+                tags={[]}
                 href="/place/historic-downtown-hotel"
               />
             </div>

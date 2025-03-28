@@ -240,3 +240,18 @@ export const checkFormErrors = (errors: any) => {
     });
   }
 };
+
+export const getPriceSymbol = (range: string) => {
+  switch (range) {
+    case 'LOW':
+      return '₭';
+    case 'MEDIUM':
+      return '₭₭';
+    case 'HIGH':
+      return '₭₭₭';
+    case 'LUXURY':
+      return '₭₭₭₭';
+    default:
+      return '₭₭';
+  }
+};

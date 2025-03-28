@@ -7,6 +7,7 @@ import localFont from 'next/font/local';
 import './globals.css';
 import Navbar from '@/components/nav-bar';
 import Footer from '@/components/footer';
+import { MobileBottomNav } from '@/components/mobile-bottom.nav';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -65,7 +66,8 @@ export default function RootLayout({
             <main className="">
               <Navbar />
               {children}
-              <Footer />
+              <MobileBottomNav />
+              <Footer className="pb-20" />
             </main>
           </ThemeProvider>
           <Toaster />

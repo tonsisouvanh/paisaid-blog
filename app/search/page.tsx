@@ -17,6 +17,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Slider } from '@/components/ui/slider';
 import PlaceCard from '@/components/place-card';
 import PlaceCardHorizontal from '../explore/components/place-card-horizal';
+import { getPriceSymbol } from '@/lib/utils';
 
 // Mock data for search results
 const allPlaces = [
@@ -239,22 +240,6 @@ const cities = [
   'Napa Valley',
   'San Diego',
 ];
-
-// Helper function to get price symbol
-const getPriceSymbol = (range: string) => {
-  switch (range) {
-    case 'LOW':
-      return '$';
-    case 'MEDIUM':
-      return '$$';
-    case 'HIGH':
-      return '$$$';
-    case 'LUXURY':
-      return '$$$$';
-    default:
-      return '$$';
-  }
-};
 
 // Mock search history
 const recentSearches = ['best restaurants', 'hotels with pool', 'family friendly', 'rooftop bars', 'beach access'];
@@ -671,7 +656,7 @@ export default function SearchPage() {
                 priceRange={place.priceRange}
                 imageUrl={place.imageUrl}
                 city={place.city}
-                tags={place.tags}
+                tags={[]}
                 href={`/place/${place.slug}`}
               />
             ))}
