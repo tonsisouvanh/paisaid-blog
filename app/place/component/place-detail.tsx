@@ -124,20 +124,23 @@ export default function PlaceDetail({ slug }: Props) {
         <main className="pb-12">
           {/* Breadcrumb */}
           <div className="container mx-auto px-4 py-3">
-            <div className="flex items-center text-sm text-muted-foreground">
-              <Link href="/" className="hover:text-foreground">
+            <div className="scrollbar-hide flex items-center overflow-x-scroll whitespace-nowrap text-sm text-muted-foreground">
+              <Link href="/" className="flex-shrink-0 hover:text-foreground">
                 Home
               </Link>
-              <ChevronRight className="mx-1 h-4 w-4" />
-              <Link href="/explore" className="hover:text-foreground">
+              <ChevronRight className="mx-1 h-4 w-4 flex-shrink-0" />
+              <Link href="/explore" className="flex-shrink-0 hover:text-foreground">
                 Explore
               </Link>
-              <ChevronRight className="mx-1 h-4 w-4" />
-              <Link href={`/categories/${postData.category?.name.toLowerCase()}`} className="hover:text-foreground">
+              <ChevronRight className="mx-1 h-4 w-4 flex-shrink-0" />
+              <Link
+                href={`/categories/${postData.category?.name.toLowerCase()}`}
+                className="flex-shrink-0 hover:text-foreground"
+              >
                 {postData.category?.name}
               </Link>
-              <ChevronRight className="mx-1 h-4 w-4" />
-              <span className="text-foreground">{postData.title}</span>
+              <ChevronRight className="mx-1 h-4 w-4 flex-shrink-0" />
+              <span className="flex-shrink-0 text-foreground">{postData.title}</span>
             </div>
           </div>
 

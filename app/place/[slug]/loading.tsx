@@ -1,38 +1,14 @@
-import { Skeleton } from "@/components/ui/skeleton";
-import { MapPin, Star, ChevronRight } from "lucide-react";
-import Link from "next/link";
+import { Skeleton } from '@/components/ui/skeleton';
+import { MapPin, Star, ChevronRight } from 'lucide-react';
+import Link from 'next/link';
 
 export default function PlaceLoading() {
   return (
-    <div className="bg-background min-h-screen">
-      <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur">
-        <div className="container mx-auto flex h-14 items-center justify-between px-4 md:px-6">
-          <div className="flex items-center gap-2">
-            <Link
-              href="/"
-              className="flex items-center gap-2 text-xl font-bold"
-            >
-              <MapPin className="text-primary h-5 w-5" />
-              <span className="hidden md:inline">TravelSpot</span>
-            </Link>
-          </div>
-          <nav className="hidden items-center gap-6 md:flex">
-            <div className="bg-muted h-4 w-16 animate-pulse rounded"></div>
-            <div className="bg-muted h-4 w-16 animate-pulse rounded"></div>
-            <div className="bg-muted h-4 w-16 animate-pulse rounded"></div>
-            <div className="bg-muted h-4 w-16 animate-pulse rounded"></div>
-          </nav>
-          <div className="flex items-center gap-2">
-            <Skeleton className="h-8 w-16 rounded" />
-            <Skeleton className="h-8 w-16 rounded" />
-          </div>
-        </div>
-      </header>
-
+    <div className="min-h-screen bg-background">
       <main className="pb-12">
         {/* Breadcrumb */}
         <div className="container px-4 py-3">
-          <div className="text-muted-foreground flex items-center text-sm">
+          <div className="flex items-center text-sm text-muted-foreground">
             <Link href="/" className="hover:text-foreground">
               Home
             </Link>
@@ -69,13 +45,13 @@ export default function PlaceLoading() {
               <Skeleton className="mb-2 h-9 w-64" />
               <div className="mb-2 flex items-center gap-2">
                 <div className="flex items-center">
-                  <Star className="text-muted h-5 w-5" />
+                  <Star className="h-5 w-5 text-muted" />
                   <Skeleton className="ml-1 h-5 w-12" />
                 </div>
                 <Skeleton className="h-5 w-24" />
               </div>
               <div className="mb-4 flex items-center">
-                <MapPin className="text-muted-foreground mr-1 h-4 w-4" />
+                <MapPin className="mr-1 h-4 w-4 text-muted-foreground" />
                 <Skeleton className="h-4 w-48" />
               </div>
               <div className="flex flex-wrap gap-2">
@@ -128,7 +104,7 @@ export default function PlaceLoading() {
         <div className="container px-4">
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
             <div className="flex items-center gap-2">
-              <MapPin className="text-primary h-5 w-5" />
+              <MapPin className="h-5 w-5 text-primary" />
               <span className="text-lg font-bold">TravelSpot</span>
             </div>
             <Skeleton className="h-4 w-48" />
