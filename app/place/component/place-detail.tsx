@@ -1,19 +1,20 @@
 'use client';
 
 import HtmlParser from '@/components/html-parser';
+import ImageCarousel from '@/components/image-carousel';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { EmptyState } from '@/components/ui/empty';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { placeData } from '@/data';
 import { OpeningHoursType, useGetPost } from '@/hooks/use-post';
+import { getPriceSymbol } from '@/lib/utils';
 import {
   Calendar,
-  ChevronLeft,
   ChevronRight,
   Clock,
   CreditCard,
@@ -32,15 +33,12 @@ import {
   Users,
   Utensils,
   Wifi,
-  X,
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import PlaceLoading from '../[slug]/loading';
-import { getPriceSymbol } from '@/lib/utils';
 import LocationTab from './location-tab';
-import ImageCarousel from '@/components/image-carousel';
 
 type Props = {
   slug: string;
@@ -276,7 +274,7 @@ export default function PlaceDetail({ slug }: Props) {
                     <Card>
                       <CardContent className="pt-6">
                         <h2 className="mb-4 text-xl font-semibold">About {postData.title}</h2>
-                        <div className="space-y-4 text-muted-foreground">
+                        <div className="space-y-4 overflow-hidden text-muted-foreground">
                           <HtmlParser html={postData.content} />
                         </div>
                       </CardContent>

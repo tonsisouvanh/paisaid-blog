@@ -46,7 +46,7 @@ const ImageCarousel = ({ photos }: Props) => {
     <div className="relative w-full">
       {/* Main Image Carousel */}
       <Carousel setApi={setApi} className="relative w-full overflow-hidden rounded-lg">
-        <CarouselContent>
+        <CarouselContent className="flex items-center">
           {photos.map((photo, index) => (
             <CarouselItem key={index} className="relative h-full">
               <Image
