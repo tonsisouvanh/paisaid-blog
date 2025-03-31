@@ -26,13 +26,25 @@ const LocationTab = ({ postData }: Props) => {
         <CardContent className="pt-6">
           <h2 className="mb-4 text-xl font-semibold">Location</h2>
           <div className="relative mb-4 h-[400px] overflow-hidden rounded-lg">
+            {/* Background Image */}
             <Image src={imageUrl} alt="Map location" fill className="object-cover" />
+
+            {/* Black Overlay with 50% Opacity */}
+            <div className="absolute inset-0 bg-black opacity-50"></div>
+
+            {/* Centered Map Pin Icon */}
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform">
               <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
                 <MapPin className="h-5 w-5" />
               </div>
             </div>
+
+            {/* Title at Bottom */}
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-center text-lg font-semibold text-white">
+              Map Location
+            </div>
           </div>
+
           <div className="mb-4 text-muted-foreground">
             <p>{address}</p>
             <p>

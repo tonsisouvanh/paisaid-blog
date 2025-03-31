@@ -33,7 +33,7 @@ export default function PlaceCard({
     <Card className="h-full overflow-hidden transition-shadow hover:shadow-md">
       <Link href={href} className="block h-full">
         <div className="relative h-40 w-full">
-          <Image src={imageUrl || '/placeholder.svg'} alt={title} fill className="object-cover" />
+          <Image src={imageUrl || '/placeholder.svg'} alt={title} fill sizes="100%" priority className="object-cover" />
           <div className="absolute left-2 top-2">
             <Badge variant="secondary" className="h-5 bg-background/80 px-2 py-0 text-xs backdrop-blur-sm">
               {category}
@@ -46,7 +46,7 @@ export default function PlaceCard({
           </div>
         </div>
         <CardContent className="p-3">
-          <h3 className="line-clamp-1 text-base font-semibold">{title}</h3>
+          <h3 className="line-clamp-1 text-base font-semibold max-sm:text-xs">{title}</h3>
           <div className="mt-1 flex items-center gap-1">
             <MapPin className="h-3 w-3 text-muted-foreground" />
             <span className="text-xs text-muted-foreground">{city}</span>

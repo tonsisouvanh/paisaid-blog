@@ -40,6 +40,7 @@ import { useState } from 'react';
 import PlaceLoading from '../[slug]/loading';
 import { getPriceSymbol } from '@/lib/utils';
 import LocationTab from './location-tab';
+import ImageCarousel from '@/components/image-carousel';
 
 type Props = {
   slug: string;
@@ -152,6 +153,7 @@ export default function PlaceDetail({ slug }: Props) {
                   src={photos[0]?.url || '/placeholder.svg'}
                   alt={photos[0]?.altText || 'Paisaid'}
                   fill
+                  quality={100}
                   className="cursor-pointer object-cover"
                   onClick={() => {
                     setActiveImageIndex(0);
@@ -200,43 +202,8 @@ export default function PlaceDetail({ slug }: Props) {
 
             {/* Image Gallery Dialog */}
             <Dialog open={isGalleryOpen} onOpenChange={setIsGalleryOpen}>
-              <DialogContent className="h-[90vh] w-[90vw] max-w-4xl p-0">
-                <div className="relative flex h-full flex-col">
-                  <DialogHeader className="absolute left-0 right-0 top-0 z-10 bg-gradient-to-b from-black/80 to-transparent p-4">
-                    <div className="flex items-center justify-between">
-                      <DialogTitle className="text-white">{postData.title} - Photos</DialogTitle>
-                      <DialogClose className="text-white">
-                        <X className="h-5 w-5" />
-                        <span className="sr-only">Close</span>
-                      </DialogClose>
-                    </div>
-                  </DialogHeader>
-
-                  <div className="flex flex-1 items-center justify-center bg-black">
-                    <div className="relative h-full w-full">
-                      <Image
-                        src={photos[activeImageIndex]?.url || '/placeholder.svg'}
-                        alt={photos[activeImageIndex]?.altText || 'Paisaid'}
-                        fill
-                        className="object-contain"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between bg-gradient-to-t from-black/80 to-transparent p-4">
-                    <Button variant="ghost" size="icon" className="text-white" onClick={prevImage}>
-                      <ChevronLeft className="h-6 w-6" />
-                      <span className="sr-only">Previous image</span>
-                    </Button>
-                    <span className="text-sm text-white">
-                      {activeImageIndex + 1} / {photos?.length}
-                    </span>
-                    <Button variant="ghost" size="icon" className="text-white" onClick={nextImage}>
-                      <ChevronRight className="h-6 w-6" />
-                      <span className="sr-only">Next image</span>
-                    </Button>
-                  </div>
-                </div>
+              <DialogContent className="overflow-hidden border-none bg-transparent p-0">
+                <ImageCarousel photos={postData?.photos || []} />
               </DialogContent>
             </Dialog>
           </section>
@@ -483,36 +450,6 @@ export default function PlaceDetail({ slug }: Props) {
                     </Card>
                   </TabsContent>
 
-                  {/* <TabsContent value="map">
-                    <Card>
-                      <CardContent className="pt-6">
-                        <h2 className="mb-4 text-xl font-semibold">Location</h2>
-                        <div className="relative mb-4 h-[400px] overflow-hidden rounded-lg">
-                          <Image
-                            src={photos && photos.length > 0 ? photos[0].url : ''}
-                            alt="Map location"
-                            fill
-                            className="object-cover"
-                          />
-                          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
-                              <MapPin className="h-5 w-5" />
-                            </div>
-                          </div>
-                        </div>
-                        <div className="mb-4 text-muted-foreground">
-                          <p>{postData.address}</p>
-                          <p>
-                            {postData.city}, {postData.country}
-                          </p>
-                        </div>
-                        <div className="flex gap-2">
-                          <Button variant="outline">Get Directions</Button>
-                          <Button variant="outline">View Larger Map</Button>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </TabsContent> */}
                   <TabsContent value="map">
                     <LocationTab postData={postData} />
                   </TabsContent>
@@ -562,7 +499,7 @@ export default function PlaceDetail({ slug }: Props) {
                           </div>
                         </div>
 
-                        <div className="flex items-start gap-3">
+                        <div className="flex items-start gap-3 overflow-hidden">
                           <Globe className="mt-0.5 h-5 w-5 text-muted-foreground" />
                           <div>
                             <h3 className="mb-1 font-medium">Website</h3>
@@ -570,7 +507,7 @@ export default function PlaceDetail({ slug }: Props) {
                               href={place.website}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-sm text-primary"
+                              className="truncate text-sm text-primary"
                             >
                               {postData.website?.replace(/^https?:\/\//, '')}
                             </a>
