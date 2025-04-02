@@ -23,7 +23,7 @@ const Navbar = () => {
       <div className="container flex h-14 items-center justify-between px-4 md:px-6">
         <div className="flex items-center gap-2">
           {/* Mobile Menu */}
-          <div className="hidden">
+          <div className="">
             <Sheet open={open} onOpenChange={isOpen => (isOpen ? onOpen() : onClose())}>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" className="md:hidden">

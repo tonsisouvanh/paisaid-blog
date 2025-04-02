@@ -41,7 +41,6 @@ export default function ContactPage() {
     // Simulate form submission
     setTimeout(() => {
       // In a real app, you would send the form data to your backend here
-      console.log('Form submitted:', formData);
 
       // Randomly succeed or fail for demo purposes
       if (Math.random() > 0.2) {

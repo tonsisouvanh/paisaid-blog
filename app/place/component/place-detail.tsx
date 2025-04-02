@@ -1,67 +1,40 @@
 'use client';
 
+import { DynamicBreadcrumb } from '@/components/dynamic-breadcrumb';
 import HtmlParser from '@/components/html-parser';
-import ImageCarousel from '@/components/image-carousel';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { EmptyState } from '@/components/ui/empty';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { placeData } from '@/data';
 import { OpeningHoursType, useGetPost } from '@/hooks/use-post';
 import { getPriceSymbol } from '@/lib/utils';
+import { upperFirst } from 'lodash';
 import {
-  Calendar,
-  ChevronRight,
   Clock,
-  CreditCard,
   Flag,
   Globe,
   Heart,
-  Info,
   MapPin,
   MessageSquare,
-  ParkingCircle,
   Phone,
   Share2,
   Star,
   ThumbsDown,
   ThumbsUp,
-  Users,
-  Utensils,
-  Wifi,
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import PlaceLoading from '../[slug]/loading';
+import { ImageCarousel } from './image-carousel';
 import LocationTab from './location-tab';
 
 type Props = {
   slug: string;
-};
-
-// Helper function to get amenity icon
-const getAmenityIcon = (iconName: string) => {
-  switch (iconName.toLowerCase()) {
-    case 'utensils':
-      return <Utensils className="h-4 w-4" />;
-    case 'wifi':
-      return <Wifi className="h-4 w-4" />;
-    case 'parking-circle':
-      return <ParkingCircle className="h-4 w-4" />;
-    case 'credit-card':
-      return <CreditCard className="h-4 w-4" />;
-    case 'calendar':
-      return <Calendar className="h-4 w-4" />;
-    case 'users':
-      return <Users className="h-4 w-4" />;
-    default:
-      return <Info className="h-4 w-4" />;
-  }
 };
 
 // Format date to readable string
@@ -80,6 +53,8 @@ export default function PlaceDetail({ slug }: Props) {
   const [isSaved, setIsSaved] = useState(false);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
   const today = new Date().toLocaleDateString('en-US', { weekday: 'long' });
   // In a real app, you would fetch the place data based on the slug
   // For this example, we're using mock data
@@ -122,30 +97,19 @@ export default function PlaceDetail({ slug }: Props) {
       ) : (
         <main className="pb-12">
           {/* Breadcrumb */}
-          <div className="container mx-auto px-4 py-3">
-            <div className="scrollbar-hide flex items-center overflow-x-scroll whitespace-nowrap text-sm text-muted-foreground">
-              <Link href="/" className="flex-shrink-0 hover:text-foreground">
-                Home
-              </Link>
-              <ChevronRight className="mx-1 h-4 w-4 flex-shrink-0" />
-              <Link href="/explore" className="flex-shrink-0 hover:text-foreground">
-                Explore
-              </Link>
-              <ChevronRight className="mx-1 h-4 w-4 flex-shrink-0" />
-              <Link
-                href={`/categories/${postData.category?.name.toLowerCase()}`}
-                className="flex-shrink-0 hover:text-foreground"
-              >
-                {postData.category?.name}
-              </Link>
-              <ChevronRight className="mx-1 h-4 w-4 flex-shrink-0" />
-              <span className="flex-shrink-0 text-foreground">{postData.title}</span>
-            </div>
-          </div>
+          <DynamicBreadcrumb
+            className="container py-2"
+            items={[
+              { label: 'Home', href: '/' },
+              { label: 'Explore', href: '/explore' },
+              { label: place.category, href: `/categories/${place.category.toLowerCase()}` },
+              { label: place.title },
+            ]}
+          />
 
           {/* Image Gallery */}
           <section className="container mx-auto mb-6 px-4">
-            <div className="grid h-[300px] grid-cols-1 gap-2 md:h-[400px] md:grid-cols-2 lg:grid-cols-3">
+            {/* <div className="grid h-[300px] grid-cols-1 gap-2 md:h-[400px] md:grid-cols-2 lg:grid-cols-3">
               <div className="relative col-span-1 row-span-2 overflow-hidden rounded-lg md:col-span-1 lg:col-span-2">
                 <Image
                   src={photos[0]?.url || '/placeholder.svg'}
@@ -184,6 +148,75 @@ export default function PlaceDetail({ slug }: Props) {
                   )}
                 </div>
               ))}
+            </div> */}
+            <div className="relative flex h-[300px] flex-col gap-2 md:h-[400px] md:flex-row">
+              {/* Main Image with Navigation Arrows */}
+              <div className="relative h-full w-full overflow-hidden rounded-lg md:w-1/2">
+                <Image
+                  src={photos[activeImageIndex]?.url || '/placeholder.svg'}
+                  alt={photos[activeImageIndex]?.altText || 'Main Image'}
+                  fill
+                  quality={100}
+                  className="cursor-pointer object-cover"
+                  onClick={() => {
+                    setActiveImageIndex(activeImageIndex);
+                    setIsGalleryOpen(true);
+                  }}
+                />
+                {/* Navigation Arrows */}
+                <button
+                  onClick={() => setActiveImageIndex(prev => (prev === 0 ? photos.length - 1 : prev - 1))}
+                  className="absolute left-2 top-1/2 -translate-y-1/2 transform rounded-full bg-white/80 p-2 hover:bg-white"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={2}
+                    stroke="currentColor"
+                    className="h-6 w-6"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+                <button
+                  onClick={() => setActiveImageIndex(prev => (prev === photos.length - 1 ? 0 : prev + 1))}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 transform rounded-full bg-white/80 p-2 hover:bg-white"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={2}
+                    stroke="currentColor"
+                    className="h-6 w-6"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+                {/* Image Counter */}
+                <div className="absolute right-2 top-2 rounded-full bg-black/60 px-3 py-1 text-sm text-white">
+                  {activeImageIndex + 1} / {photos.length}
+                </div>
+              </div>
+
+              {/* Thumbnails on the Right */}
+              <div className="grid h-full w-full grid-cols-2 gap-2 md:w-1/2">
+                {photos?.slice(0, 4).map((image, index) => (
+                  <div key={image.id} className="relative overflow-hidden rounded-lg">
+                    <Image
+                      src={image?.url || '/placeholder.svg'}
+                      alt={image?.altText || 'Thumbnail'}
+                      fill
+                      className="cursor-pointer object-cover"
+                      onClick={() => {
+                        setActiveImageIndex(index);
+                        setIsGalleryOpen(true);
+                      }}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
 
             {/* Mobile View All Photos Button */}
@@ -199,11 +232,21 @@ export default function PlaceDetail({ slug }: Props) {
             </Button>
 
             {/* Image Gallery Dialog */}
-            <Dialog open={isGalleryOpen} onOpenChange={setIsGalleryOpen}>
-              <DialogContent className="overflow-hidden border-none bg-transparent p-0">
-                <ImageCarousel photos={postData?.photos || []} />
-              </DialogContent>
-            </Dialog>
+            {/* Image Carousel for Gallery View */}
+            {isGalleryOpen && (
+              <div className={isFullscreen ? 'fixed inset-0 z-50' : 'fixed inset-0 z-50 p-4 md:p-12'}>
+                <ImageCarousel
+                  images={postData?.photos || []}
+                  initialIndex={activeImageIndex}
+                  onClose={() => {
+                    setIsGalleryOpen(false);
+                    setIsFullscreen(false);
+                  }}
+                  fullscreen={isFullscreen}
+                  onToggleFullscreen={() => setIsFullscreen(!isFullscreen)}
+                />
+              </div>
+            )}
           </section>
 
           {/* Place Header */}
@@ -214,7 +257,7 @@ export default function PlaceDetail({ slug }: Props) {
                   <Badge variant="secondary">{postData.category?.name}</Badge>
                   <Badge variant="outline">{getPriceSymbol(postData.priceRange || '')}</Badge>
                 </div>
-                <h1 className="mb-2 text-2xl font-bold md:text-3xl">{postData.title}</h1>
+                <h1 className="mb-2 text-2xl font-bold md:text-3xl">{upperFirst(postData.title)}</h1>
                 <div className="mb-2 flex items-center gap-2">
                   <div className="flex items-center">
                     <Star className="h-5 w-5 fill-primary text-primary" />
@@ -273,7 +316,7 @@ export default function PlaceDetail({ slug }: Props) {
                   <TabsContent value="about" className="space-y-6">
                     <Card>
                       <CardContent className="pt-6">
-                        <h2 className="mb-4 text-xl font-semibold">About {postData.title}</h2>
+                        <h2 className="mb-4 text-xl font-semibold">About {upperFirst(postData.title)}</h2>
                         <div className="space-y-4 overflow-hidden text-muted-foreground">
                           <HtmlParser html={postData.content} />
                         </div>

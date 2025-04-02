@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { TagType } from '@/hooks/use-post';
 import { getPriceSymbol } from '@/lib/utils';
+import { upperFirst } from 'lodash';
 
 interface PlaceCardProps {
   title: string;
@@ -46,7 +47,7 @@ export default function PlaceCard({
           </div>
         </div>
         <CardContent className="p-3">
-          <h3 className="line-clamp-1 text-base font-semibold max-sm:text-xs">{title}</h3>
+          <h3 className="line-clamp-1 text-base font-semibold max-sm:text-xs">{upperFirst(title)}</h3>
           <div className="mt-1 flex items-center gap-1">
             <MapPin className="h-3 w-3 text-muted-foreground" />
             <span className="text-xs text-muted-foreground">{city}</span>
